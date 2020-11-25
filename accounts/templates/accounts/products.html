@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+    Products
+{% endblock %}
+
 {% block content %}
 
     <br>
@@ -23,7 +27,7 @@
                                 {{ product.name }}
                             </td>
                             <td>
-                                    {{ product.category }}
+                                {{ product.category }}
                             </td>
                             <td>
                                 R$ {{ product.price }}

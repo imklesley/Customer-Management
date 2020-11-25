@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+    Update Order
+{% endblock %}
+
+{% block content %}
+    <form action="" method="POST">
+    {% csrf_token %}
+
+    {{ form }}
+
+
+    <button class="btn btn-primary" style="margin: 0 2%" name="submit">Update Order</button>
+
+
+</form>
+
+{% endblock %}

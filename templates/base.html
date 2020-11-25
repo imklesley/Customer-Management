@@ -12,12 +12,20 @@
 
 </head>
 <body>
+
+<style type="text/css">
+    .main {
+        min-height: 100vh;
+        height: 100%;
+    }
+</style>
+
 <!-- NAVBAR -->
 {% include 'snippet/navbar.html' %}
 <!-- END NAVBAR -->
 
 <!-- CONTEÚDO DE CADA PÁGINA -->
-<div style="margin:  2%">
+<div style="margin:  2%" class="main">
     {% block content %}
     {% endblock %}
 </div>
