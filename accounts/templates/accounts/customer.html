@@ -13,7 +13,8 @@
                 <h5>Customer:</h5>
                 <hr>
                 <a class="btn btn-outline-info  btn-sm btn-block" href="">Update Customer</a>
-                <a class="btn btn-outline-danger  btn-sm btn-block" href="">Delete Customer</a>
+                <a class="btn btn-outline-info  btn-sm btn-block" href="{% url 'create_many_orders' customer.id %}">Place
+                    Order</a>
 
             </div>
         </div>
@@ -77,7 +78,6 @@
 
                         </tr>
                     {% endfor %}
-
 
 
                 </table>

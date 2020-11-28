@@ -17,6 +17,7 @@
                 <table class="table">
                     <tr>
                         <th>Product</th>
+                        <th>Quantity Available</th>
                         <th>Category</th>
                         <th>Price</th>
                     </tr>
@@ -25,6 +26,9 @@
                         <tr>
                             <td>
                                 {{ product.name }}
+                            </td>
+                            <td>
+                                {{ product.quantity_available }}
                             </td>
                             <td>
                                 {{ product.category }}

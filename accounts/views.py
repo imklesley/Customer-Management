@@ -1,4 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.forms import inlineformset_factory
+
 from .models import *
 from .forms import *
 
@@ -10,13 +12,15 @@ def home(request):
 
     total_orders = orders.count()
     delivered = orders.filter(status='Delivered').count()
-    pending = orders.filter(status='Pending').count()
+    waiting_payment = orders.filter(status='Waiting for Payment').count()
+    preparation = orders.filter(status='Preparation').count()
 
     context['orders'] = orders
     context['customers'] = customers
     context['total_orders'] = total_orders
     context['delivered'] = delivered
-    context['pending'] = pending
+    context['waiting_payment'] = waiting_payment
+    context['preparation'] = preparation
 
     return render(request, 'accounts/dashboard.html', context)
 
@@ -53,6 +57,23 @@ def create_order(request):
     return render(request, 'accounts/order_form.html', context)
 
 
+def create_many_orders(request, pk):
+    context = {}
+    OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=5, )
+    customer = Customer.objects.get(id=pk)
+    formset = OrderFormSet(queryset=Order.objects.none(), instance=customer)
+
+    if request.method == 'POST':
+        formset = OrderFormSet(request.POST, instance=customer)
+        if formset.is_valid():
+            formset.save()
+            return redirect('home')
+    context['customer'] = customer
+    context['formset'] = formset
+
+    return render(request, 'accounts/many_order_form.html', context)
+
+
 def update_order(request, pk):
     context = {}
 
@@ -69,6 +90,16 @@ def update_order(request, pk):
         # Verifico se está válido
         if form.is_valid():
             form.save()
+            # Quando o pagamento tiver sido confirmado, decrementa uma unidade do produto
+            if request.POST['status'] == 'Preparation':
+                # Pega o id do produto
+                product_id = request.POST['product']
+                # Busca o produto pelo id
+                product = Product.objects.get(pk=product_id)
+                # Decrementa uma unidade
+                product.quantity_available -= 1
+                # Salva a alteração
+                product.save()
             return redirect('home')
 
     context['form'] = form

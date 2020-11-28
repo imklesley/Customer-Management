@@ -23,7 +23,7 @@ class Tag(models.Model):
 class Product(models.Model):
     CATEGORY = [('Indoor', 'Indoor'), ('Out door', 'Out door')]
 
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, null=True)
     # Para trabalhar com dinheiro, sempre usar DecimalField
     price = models.DecimalField(max_digits=7, decimal_places=2)
     category = models.CharField(max_length=200, choices=CATEGORY)
@@ -39,15 +39,17 @@ class Product(models.Model):
 
 class Order(models.Model):
     STATUS = [
-        ('Pending', 'Pending'),
+        ('Waiting for Payment','Waiting for Payment'),
+        ('Preparation', 'Preparation'),
         ('Out for delivery', 'Out for delivery'),
         ('Delivered', 'Delivered')
     ]
 
+
     customer = models.ForeignKey(Customer, null=True, on_delete=models.SET_NULL)
     product = models.ForeignKey(Product, null=True, on_delete=models.SET_NULL)
-    status = models.CharField(max_length=255, choices=STATUS, default=STATUS[0])
-    date_created = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(max_length=255, choices=STATUS, default=STATUS[0],null=True,)
+    date_created = models.DateTimeField(auto_now_add=True,null=True)
 
     def __str__(self):
         return self.product.name
