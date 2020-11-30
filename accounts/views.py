@@ -1,7 +1,28 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import inlineformset_factory
+from django.contrib.auth.forms import UserCreationForm
+##
 from .filters import OrderFilter
 from .forms import *
+
+
+def register_page(request):
+    context = {}
+
+    form = UserCreationForm()
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+
+    context['form'] = form
+    return render(request, 'accounts/register_page.html', context)
+
+
+def login_page(request):
+    context = {}
+    return render(request, 'accounts/login_page.html', context)
 
 
 def home(request):
@@ -41,13 +62,13 @@ def customer(request, pk):
     context = {}
     # Procura o usuário em questão
     user = get_object_or_404(Customer, pk=pk)
-    #Desse usuário encontrado, pego todos as orders vinculadas ao seu id
+    # Desse usuário encontrado, pego todos as orders vinculadas ao seu id
     orders = user.order_set.all()
 
-    #Crio um filtro já realizando a pesquisa nas "orders" encontradas anteriormente
+    # Crio um filtro já realizando a pesquisa nas "orders" encontradas anteriormente
     my_filter = OrderFilter(request.GET, orders)
-    #Retorno o queryset(qs) dessa pesquisa, caso não encontre retorna para orders []
-    #caso encontre mostra os orders encontrados
+    # Retorno o queryset(qs) dessa pesquisa, caso não encontre retorna para orders []
+    # caso encontre mostra os orders encontrados
     orders = my_filter.qs
 
     context['my_filter'] = my_filter
