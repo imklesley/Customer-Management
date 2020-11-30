@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import inlineformset_factory
-
-from .models import *
+from .filters import OrderFilter
 from .forms import *
 
 
@@ -22,6 +21,11 @@ def home(request):
     context['waiting_payment'] = waiting_payment
     context['preparation'] = preparation
 
+    # Só para testesssss
+    # Usar %0A  ou %0D para pular linha
+    context[
+        'whatsapp'] = 'Olá Deusa, Bom dia! Segue Minha Lista de Produtos:%0A*1- Short Jeans tam 34%0A2- Saia Florida Tam 39*'
+
     return render(request, 'accounts/dashboard.html', context)
 
 
@@ -35,9 +39,18 @@ def products(request):
 
 def customer(request, pk):
     context = {}
-
+    # Procura o usuário em questão
     user = get_object_or_404(Customer, pk=pk)
+    #Desse usuário encontrado, pego todos as orders vinculadas ao seu id
     orders = user.order_set.all()
+
+    #Crio um filtro já realizando a pesquisa nas "orders" encontradas anteriormente
+    my_filter = OrderFilter(request.GET, orders)
+    #Retorno o queryset(qs) dessa pesquisa, caso não encontre retorna para orders []
+    #caso encontre mostra os orders encontrados
+    orders = my_filter.qs
+
+    context['my_filter'] = my_filter
     context['customer'] = user
     context['orders'] = orders
     return render(request, 'accounts/customer.html', context)
@@ -60,11 +73,11 @@ def create_order(request):
 def create_many_orders(request, pk):
     context = {}
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=5, )
-    customer = Customer.objects.get(id=pk)
-    formset = OrderFormSet(queryset=Order.objects.none(), instance=customer)
+    customerr = Customer.objects.get(id=pk)
+    formset = OrderFormSet(queryset=Order.objects.none(), instance=customerr)
 
     if request.method == 'POST':
-        formset = OrderFormSet(request.POST, instance=customer)
+        formset = OrderFormSet(request.POST, instance=customerr)
         if formset.is_valid():
             formset.save()
             return redirect('home')

@@ -5,6 +5,8 @@
 
 {% block content %}
 
+
+
     <br>
 
     <div class="row">
@@ -46,7 +48,7 @@
         <div class="col">
             <div class="card card-body">
                 <form method="get">
-
+                    {{ my_filter.form }}
                     <button class="btn btn-primary" type="submit">Search</button>
                 </form>
             </div>
@@ -62,6 +64,7 @@
                     <tr>
                         <th>Product</th>
                         <th>Category</th>
+                        <th>Note</th>
                         <th>Date Orderd</th>
                         <th>Status</th>
                         <th>Update</th>
@@ -71,6 +74,7 @@
                         <tr>
                             <td>{{ order.product.name }}</td>
                             <td>{{ order.product.category }}</td>
+                            <td>{{ order.note|truncatechars:20}}</td>
                             <td>{{ order.date_created }}</td>
                             <td>{{ order.status }}</td>
                             <td><a class="btn btn-info" href="{% url 'update_order' order.id %}">Update</a></td>
