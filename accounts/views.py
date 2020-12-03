@@ -1,30 +1,99 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.forms import inlineformset_factory
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+
+#Pra adicionar o group de permisão do usu[ario quando ele está sendo  criado
+from django.contrib.auth.models import Group
+
+from django.contrib.auth import authenticate, login, logout
+# Verifica se o usuário logou, caso não tenha logado redireciona para a página de login
+from django.contrib.auth.decorators import login_required
+
 ##
 from .filters import OrderFilter
 from .forms import *
+from .decorators import *
 
 
+@unauthenticated_user
 def register_page(request):
     context = {}
-
-    form = UserCreationForm()
-
+    form = RegisterForm()
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            #Ao salvar o formulário, salvo o user criado
+            user = form.save()
+            #Pego o user name do user, isso para mandar mensagem mais bonitinha para login_page
+            username = form.cleaned_data.get('username')
+
+            #Procuro pelo group "customer" dentro de todos os groups criados
+            group = Group.objects.get(name='customer')
+
+            #Como foi criado um novo atributo(user) na tabela Customer, é preciso adicionar essa informação
+            #na criação ou o django não irá identificar o usuário, logo
+
+            #Atributo user da tabela Customer, receber user dessa view
+            Customer.objects.create(
+                user=user
+            )
+
+
+            #Verifica-se se há algum group cadastrado
+            if group:
+                #Se sim, já adiciona o usuário no group customer
+                user.groups.add(group)
+
+            #Envia a mensagem de sucesso para a próxima page
+            messages.success(request, message=f'{username} created with success !')
+            return redirect('login_page')
 
     context['form'] = form
     return render(request, 'accounts/register_page.html', context)
 
 
+@unauthenticated_user
 def login_page(request):
     context = {}
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(request=request, username=username, password=password)
+        if user:
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request=request, message='Your username or password is invalid!')
+
     return render(request, 'accounts/login_page.html', context)
 
 
+def log_out(request):
+    logout(request)
+    return redirect('login_page')
+
+@login_required(login_url='login_page')
+@allowed_users(allowed_roles=['customer'])
+def user_page(request):
+    context = {}
+    orders = request.user.customer.order_set.all()
+    total_orders = orders.count()
+    waiting_payment = orders.filter(status='Waiting for Payment').count()
+    preparation = orders.filter(status='Preparation').count()
+    delivered = orders.filter(status='Delivered').count()
+
+
+    context['orders'] = orders
+    context['total_orders'] = total_orders
+    context['waiting_payment'] = waiting_payment
+    context['preparation'] = preparation
+    context['delivered'] = delivered
+    return render(request, 'accounts/comum_user.html', context)
+
+
+@login_required(login_url='login_page')
+@admin_only
 def home(request):
     context = {}
     orders = Order.objects.all()
@@ -50,6 +119,8 @@ def home(request):
     return render(request, 'accounts/dashboard.html', context)
 
 
+@login_required(login_url='login_page')
+@allowed_users(allowed_roles=['admin'])
 def products(request):
     context = {}
     all_products = Product.objects.order_by('price')
@@ -58,6 +129,8 @@ def products(request):
     return render(request, 'accounts/products.html', context)
 
 
+@login_required(login_url='login_page')
+@allowed_users(allowed_roles=['admin'])
 def customer(request, pk):
     context = {}
     # Procura o usuário em questão
@@ -77,6 +150,8 @@ def customer(request, pk):
     return render(request, 'accounts/customer.html', context)
 
 
+@login_required(login_url='login_page')
+@allowed_users(allowed_roles=['admin'])
 def create_order(request):
     context = {}
     form = OrderForm()
@@ -91,6 +166,8 @@ def create_order(request):
     return render(request, 'accounts/order_form.html', context)
 
 
+@login_required(login_url='login_page')
+@allowed_users(allowed_roles=['admin'])
 def create_many_orders(request, pk):
     context = {}
     OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=5, )
@@ -108,6 +185,8 @@ def create_many_orders(request, pk):
     return render(request, 'accounts/many_order_form.html', context)
 
 
+@login_required(login_url='login_page')
+@allowed_users(allowed_roles=['admin'])
 def update_order(request, pk):
     context = {}
 
@@ -141,6 +220,8 @@ def update_order(request, pk):
     return render(request, 'accounts/update_order.html', context)
 
 
+@login_required(login_url='login_page')
+@allowed_users(allowed_roles=['admin'])
 def delete_order(request, pk):
     context = {}
     order = Order.objects.get(id=pk)

@@ -14,9 +14,10 @@
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/venv/python.exe" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8 (BlogInDjango)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.9 (Customer-Management)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="R User Library" level="project" />
     <orderEntry type="library" name="R Skeletons" level="application" />
