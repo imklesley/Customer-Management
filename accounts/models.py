@@ -9,6 +9,7 @@ class Customer(models.Model):
     name = models.CharField(max_length=200)
     phone = models.CharField(max_length=20)
     email = models.EmailField(max_length=200)
+    profile_pic = models.ImageField(null=True,blank=True)
     # auto_now_add, adiciona data e horário assim que cria, já auto_now, toda vez que é alterado
     date_created = models.DateTimeField(auto_now_add=True)
 

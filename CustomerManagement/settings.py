@@ -129,3 +129,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 
 ]
+
+
+#Isso é para receber os arquivos advindos dos submits
+MEDIA_ROOT = os.path.join(BASE_DIR,'static/images')
