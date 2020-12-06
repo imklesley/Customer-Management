@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.forms import inlineformset_factory
 from django.contrib import messages
 
-#Pra adicionar o group de permisão do usu[ario quando ele está sendo  criado
+# Pra adicionar o group de permisão do usuário quando ele está sendo  criado
 from django.contrib.auth.models import Group
 
 from django.contrib.auth import authenticate, login, logout
@@ -22,29 +22,14 @@ def register_page(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            #Ao salvar o formulário, salvo o user criado
+            # Ao salvar o formulário, salvo o user criado
             user = form.save()
-            #Pego o user name do user, isso para mandar mensagem mais bonitinha para login_page
+            # Pego o user name do user, isso para mandar mensagem mais bonitinha para login_page
             username = form.cleaned_data.get('username')
 
-            #Procuro pelo group "customer" dentro de todos os groups criados
-            group = Group.objects.get(name='customer')
-
-            #Como foi criado um novo atributo(user) na tabela Customer, é preciso adicionar essa informação
-            #na criação ou o django não irá identificar o usuário, logo
-
-            #Atributo user da tabela Customer, receber user dessa view
-            Customer.objects.create(
-                user=user
-            )
 
 
-            #Verifica-se se há algum group cadastrado
-            if group:
-                #Se sim, já adiciona o usuário no group customer
-                user.groups.add(group)
-
-            #Envia a mensagem de sucesso para a próxima page
+            # Envia a mensagem de sucesso para a próxima page
             messages.success(request, message=f'{username} created with success !')
             return redirect('login_page')
 
@@ -73,6 +58,7 @@ def log_out(request):
     logout(request)
     return redirect('login_page')
 
+
 @login_required(login_url='login_page')
 @allowed_users(allowed_roles=['customer'])
 def user_page(request):
@@ -83,13 +69,35 @@ def user_page(request):
     preparation = orders.filter(status='Preparation').count()
     delivered = orders.filter(status='Delivered').count()
 
-
     context['orders'] = orders
     context['total_orders'] = total_orders
     context['waiting_payment'] = waiting_payment
     context['preparation'] = preparation
     context['delivered'] = delivered
+    # Só para testesssss
+    # Usar %0A  ou %0D para pular linha
+    context[
+        'whatsapp'] = 'Olá Deusa, Bom dia! Segue Minha Lista de Produtos:%0A*1- Short Jeans tam 34%0A2- Saia Florida Tam 39*'
     return render(request, 'accounts/comum_user.html', context)
+
+
+@login_required(login_url='login_page')
+@allowed_users(allowed_roles=['customer'])
+def account_settings(request):
+    context = {}
+    customer = request.user.customer
+    form = AccountSettingsForm(instance=customer)
+
+    if request.method == 'POST':
+        form = AccountSettingsForm(request.POST, request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+            messages.success(request, message=f'{request.user.customer.name} Your profile was updated !')
+            return redirect('account_settings')
+
+    context['form'] = form
+
+    return render(request=request, template_name='accounts/account_settings.html', context=context)
 
 
 @login_required(login_url='login_page')
@@ -147,6 +155,7 @@ def customer(request, pk):
     context['my_filter'] = my_filter
     context['customer'] = user
     context['orders'] = orders
+
     return render(request, 'accounts/customer.html', context)
 
 

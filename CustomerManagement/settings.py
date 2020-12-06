@@ -30,9 +30,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    # Myapps
-    'accounts',
+    # My apps
+    'accounts.apps.AccountsConfig',
 
+
+    #Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    #Other app
-    'django_filters'
+    # Other apps
+    'django_filters',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -78,10 +81,18 @@ WSGI_APPLICATION = 'CustomerManagement.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
+#Para operar o postgres via django é necessário instalar:
+#       pip install psycopg2
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'demo_1',
+        'USER': 'imklesley',
+        'PASSWORD': 'adailde100',
+        'HOST': 'database-1.cwidq6vqe32z.us-east-2.rds.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
@@ -119,17 +130,73 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
+# STATIC_URL = '/static/'
+#
+# # Não precisei pra colocar logo, deve ser pra colocar outros arquivos de media
+# MEDIA_URL = '/images/'
+#
+# STATICFILES_DIRS = [
+#
+#     os.path.join(BASE_DIR, 'static')
+#
+# ]
+#
+# # Isso é para receber os arquivos advindos dos submits
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 
-# Não precisei pra colocar logo, deve ser pra colocar outros arquivos de media
-MEDIA_URL = '/media/'
 
-STATICFILES_DIRS = [
+USE_S3 = os.getenv('USE_S3') == 'TRUE'
 
-    os.path.join(BASE_DIR, 'static')
+if USE_S3:
+    # aws settings
+    AWS_ACCESS_KEY_ID = 'AKIARVAGIFYZBVECKUFA'
+    AWS_SECRET_ACCESS_KEY = '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'
+    AWS_STORAGE_BUCKET_NAME = 'imklesley-crm-bucket'
+    AWS_DEFAULT_ACL = None
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+    # s3 static settings
+    AWS_LOCATION = 'static'
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-]
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, 'images')
+
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+
+MEDIA_URL = '/images/'
 
 
-#Isso é para receber os arquivos advindos dos submits
-MEDIA_ROOT = os.path.join(BASE_DIR,'static/images')
+
+
+#Para configurar o gmail para enviar mensagens seguir:
+#https://dev.to/abderrahmanemustapha/how-to-send-email-with-django-and-gmail-in-production-the-right-way-24ab
+#SMTP Configuration (Simple Mail Transfer Protocol)
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'imklesley@gmail.com'
+#Não deixa essa senha visível não vacilão
+EMAIL_HOST_PASSWORD = 'rsuosrzgydcqotqw'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

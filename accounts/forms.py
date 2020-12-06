@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from .models import *
 
 
+
+
 class OrderForm(ModelForm):
     class Meta:
         model = Order
@@ -18,3 +20,9 @@ class RegisterForm(UserCreationForm):
         fields = ['username', 'email', 'password1', 'password2']
 
 
+class AccountSettingsForm(ModelForm):
+
+    class Meta:
+        model = Customer
+        fields = '__all__'
+        exclude = ['user']

@@ -16,7 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# Importamos o arquivo de configuração do django
+from django.conf import settings
+# Isso não é a forma ideal para se fazer, pois estamos hospedando diretamento
+# no django, o certo seria num aws, por exemplo
+from django.conf.urls.static import static  # Faz com que todos os arquivos static seja acessados pela url
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls'))
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
