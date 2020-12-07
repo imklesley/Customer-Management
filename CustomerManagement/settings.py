@@ -25,7 +25,7 @@ SECRET_KEY = '+7l@xp$v2o_zxt&c7@$cv(gvh^b*&q2gni-rnsnrglqyq-5*x_'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['django-crm-imklesley.herokuapp.com','127.0.0.1']
+ALLOWED_HOSTS = ['django-crm-imklesley.herokuapp.com', '127.0.0.1']
 
 # Application definition
 
@@ -33,8 +33,7 @@ INSTALLED_APPS = [
     # My apps
     'accounts.apps.AccountsConfig',
 
-
-    #Django apps
+    # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -49,12 +48,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'CustomerManagement.urls'
@@ -82,7 +83,7 @@ WSGI_APPLICATION = 'CustomerManagement.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
-#Para operar o postgres via django é necessário instalar:
+# Para operar o postgres via django é necessário instalar:
 #       pip install psycopg2
 
 # DATABASES = {
@@ -103,7 +104,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -141,6 +141,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Não precisei pra colocar logo, deve ser pra colocar outros arquivos de media
 MEDIA_URL = '/images/'
 
@@ -179,33 +180,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 # MEDIA_URL = '/images/'
 
 
-
-
-#Para configurar o gmail para enviar mensagens seguir:
-#https://dev.to/abderrahmanemustapha/how-to-send-email-with-django-and-gmail-in-production-the-right-way-24ab
-#SMTP Configuration (Simple Mail Transfer Protocol)
+# Para configurar o gmail para enviar mensagens seguir:
+# https://dev.to/abderrahmanemustapha/how-to-send-email-with-django-and-gmail-in-production-the-right-way-24ab
+# SMTP Configuration (Simple Mail Transfer Protocol)
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'imklesley@gmail.com'
-#Não deixa essa senha visível não vacilão
+# Não deixa essa senha visível não vacilão
 EMAIL_HOST_PASSWORD = 'rsuosrzgydcqotqw'
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
