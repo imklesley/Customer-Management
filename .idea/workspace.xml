@@ -201,7 +201,7 @@
       <workItem from="1607262677390" duration="692000" />
       <workItem from="1607264092749" duration="1265000" />
       <workItem from="1607271547427" duration="11311000" />
-      <workItem from="1607295724401" duration="926000" />
+      <workItem from="1607295724401" duration="2578000" />
     </task>
     <servers />
   </component>
@@ -224,6 +224,10 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="1451" y="341" key="#Plugins" timestamp="1607296979201">
+      <screen x="0" y="0" width="2560" height="1400" />
+    </state>
+    <state x="1451" y="341" key="#Plugins/0.0.2560.1400@0.0.2560.1400" timestamp="1607296979201" />
     <state x="736" y="356" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1606744554524">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
