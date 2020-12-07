@@ -19,7 +19,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01d269eb-e5e4-494f-9351-fd7ef982ef18" name="Default Changelist" comment="" />
+    <list default="true" id="01d269eb-e5e4-494f-9351-fd7ef982ef18" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -200,7 +202,7 @@
       <workItem from="1607262677390" duration="692000" />
       <workItem from="1607264092749" duration="1265000" />
       <workItem from="1607271547427" duration="11311000" />
-      <workItem from="1607295724401" duration="4784000" />
+      <workItem from="1607295724401" duration="5116000" />
     </task>
     <servers />
   </component>
@@ -251,22 +253,22 @@
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
     <state x="1061" y="456" key="FileChooserDialogImpl/0.0.2560.1400@0.0.2560.1400" timestamp="1606852717732" />
-    <state width="1235" height="572" key="GridCell.Tab.0.bottom" timestamp="1607301720620">
+    <state width="1235" height="572" key="GridCell.Tab.0.bottom" timestamp="1607302810266">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="1235" height="572" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1607301720620" />
-    <state width="1235" height="572" key="GridCell.Tab.0.center" timestamp="1607301720620">
+    <state width="1235" height="572" key="GridCell.Tab.0.bottom/0.0.2560.1400@0.0.2560.1400" timestamp="1607302810266" />
+    <state width="1235" height="572" key="GridCell.Tab.0.center" timestamp="1607302810266">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="1235" height="572" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1607301720620" />
-    <state width="1235" height="572" key="GridCell.Tab.0.left" timestamp="1607301720620">
+    <state width="1235" height="572" key="GridCell.Tab.0.center/0.0.2560.1400@0.0.2560.1400" timestamp="1607302810266" />
+    <state width="1235" height="572" key="GridCell.Tab.0.left" timestamp="1607302810266">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="1235" height="572" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1607301720620" />
-    <state width="1235" height="572" key="GridCell.Tab.0.right" timestamp="1607301720620">
+    <state width="1235" height="572" key="GridCell.Tab.0.left/0.0.2560.1400@0.0.2560.1400" timestamp="1607302810266" />
+    <state width="1235" height="572" key="GridCell.Tab.0.right" timestamp="1607302810266">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
-    <state width="1235" height="572" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1607301720620" />
+    <state width="1235" height="572" key="GridCell.Tab.0.right/0.0.2560.1400@0.0.2560.1400" timestamp="1607302810266" />
     <state x="782" y="346" key="SettingsEditor" timestamp="1607271473676">
       <screen x="0" y="0" width="2560" height="1400" />
     </state>
@@ -278,6 +280,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/Customer_Management$decorators.coverage" NAME="decorators Coverage Results" MODIFIED="1606911356781" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/accounts" />
-    <SUITE FILE_PATH="coverage/Customer_Management$manage.coverage" NAME="manage Coverage Results" MODIFIED="1607301691578" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Customer_Management$manage.coverage" NAME="manage Coverage Results" MODIFIED="1607302810242" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
