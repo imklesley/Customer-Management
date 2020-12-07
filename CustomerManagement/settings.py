@@ -145,7 +145,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # Não precisei pra colocar logo, deve ser pra colocar outros arquivos de media
 
 
-STATICFILES_STORAGE='whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_URL = '/images/'
 
