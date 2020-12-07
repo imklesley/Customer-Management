@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '+7l@xp$v2o_zxt&c7@$cv(gvh^b*&q2gni-rnsnrglqyq-5*x_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['django-crm-imklesley.herokuapp.com','127.0.0.1']
 
 # Application definition
 
@@ -85,16 +85,25 @@ WSGI_APPLICATION = 'CustomerManagement.wsgi.application'
 #Para operar o postgres via django é necessário instalar:
 #       pip install psycopg2
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'demo_1',
+#         'USER': 'imklesley',
+#         'PASSWORD': 'adailde100',
+#         'HOST': 'database-1.cwidq6vqe32z.us-east-2.rds.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'demo_1',
-        'USER': 'imklesley',
-        'PASSWORD': 'adailde100',
-        'HOST': 'database-1.cwidq6vqe32z.us-east-2.rds.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -130,44 +139,44 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-# STATIC_URL = '/static/'
-#
-# # Não precisei pra colocar logo, deve ser pra colocar outros arquivos de media
-# MEDIA_URL = '/images/'
-#
-# STATICFILES_DIRS = [
-#
-#     os.path.join(BASE_DIR, 'static')
-#
-# ]
-#
-# # Isso é para receber os arquivos advindos dos submits
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+STATIC_URL = '/static/'
 
-
-USE_S3 = os.getenv('USE_S3') == 'TRUE'
-
-if USE_S3:
-    # aws settings
-    AWS_ACCESS_KEY_ID = 'AKIARVAGIFYZBVECKUFA'
-    AWS_SECRET_ACCESS_KEY = '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'
-    AWS_STORAGE_BUCKET_NAME = 'imklesley-crm-bucket'
-    AWS_DEFAULT_ACL = None
-    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-    AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
-    # s3 static settings
-    AWS_LOCATION = 'static'
-    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-else:
-    STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'images')
-
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
-
+# Não precisei pra colocar logo, deve ser pra colocar outros arquivos de media
 MEDIA_URL = '/images/'
+
+STATICFILES_DIRS = [
+
+    os.path.join(BASE_DIR, 'static')
+
+]
+
+# Isso é para receber os arquivos advindos dos submits
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
+
+#
+# USE_S3 = os.getenv('USE_S3') == 'TRUE'
+#
+# if USE_S3:
+#     # aws settings
+#     AWS_ACCESS_KEY_ID = 'AKIARVAGIFYZBVECKUFA'
+#     AWS_SECRET_ACCESS_KEY = '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'
+#     AWS_STORAGE_BUCKET_NAME = 'imklesley-crm-bucket'
+#     AWS_DEFAULT_ACL = None
+#     AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+#     AWS_S3_OBJECT_PARAMETERS = {'CacheControl': 'max-age=86400'}
+#     # s3 static settings
+#     AWS_LOCATION = 'static'
+#     STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
+#     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#
+#     STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# else:
+#     STATIC_URL = '/static/'
+#     STATIC_ROOT = os.path.join(BASE_DIR, 'images')
+#
+# STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+#
+# MEDIA_URL = '/images/'
 
 
 
