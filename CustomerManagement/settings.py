@@ -14,8 +14,6 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-import django_heroku
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -197,7 +195,3 @@ EMAIL_HOST_USER = 'imklesley@gmail.com'
 # Não deixa essa senha visível não vacilão
 EMAIL_HOST_PASSWORD = 'rsuosrzgydcqotqw'
 
-
-
-# Activate Django-Heroku.
-django_heroku.settings(locals())
