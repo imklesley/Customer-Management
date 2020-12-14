@@ -82,7 +82,6 @@ def user_page(request):
 
 
 @login_required(login_url='login_page')
-@allowed_users(allowed_roles=['customer'])
 def account_settings(request):
     context = {}
     customer = request.user.customer
@@ -100,41 +99,7 @@ def account_settings(request):
     return render(request=request, template_name='accounts/account_settings.html', context=context)
 
 
-@login_required(login_url='login_page')
-@admin_only
-def home(request):
-    context = {}
-    orders = Order.objects.all()
-    customers = Customer.objects.all()
 
-    total_orders = orders.count()
-    delivered = orders.filter(status='Delivered').count()
-    waiting_payment = orders.filter(status='Waiting for Payment').count()
-    preparation = orders.filter(status='Preparation').count()
-
-    context['orders'] = orders
-    context['customers'] = customers
-    context['total_orders'] = total_orders
-    context['delivered'] = delivered
-    context['waiting_payment'] = waiting_payment
-    context['preparation'] = preparation
-
-    # Só para testesssss
-    # Usar %0A  ou %0D para pular linha
-    context[
-        'whatsapp'] = 'Olá Deusa, Bom dia! Segue Minha Lista de Produtos:%0A*1- Short Jeans tam 34%0A2- Saia Florida Tam 39*'
-
-    return render(request, 'accounts/dashboard.html', context)
-
-
-@login_required(login_url='login_page')
-@allowed_users(allowed_roles=['admin'])
-def products(request):
-    context = {}
-    all_products = Product.objects.order_by('price')
-    context['products'] = all_products
-
-    return render(request, 'accounts/products.html', context)
 
 
 @login_required(login_url='login_page')
