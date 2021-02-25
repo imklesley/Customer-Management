@@ -82,6 +82,7 @@ def user_page(request):
 
 
 @login_required(login_url='login_page')
+@allowed_users(allowed_roles=['customer'])
 def account_settings(request):
     context = {}
     customer = request.user.customer
@@ -99,7 +100,14 @@ def account_settings(request):
     return render(request=request, template_name='accounts/account_settings.html', context=context)
 
 
+@login_required(login_url='login_page')
+@allowed_users(allowed_roles=['admin'])
+def products(request):
+    context = {}
+    all_products = Product.objects.order_by('price')
+    context['products'] = all_products
 
+    return render(request, 'accounts/products.html', context)
 
 
 @login_required(login_url='login_page')
