@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '+7l@xp$v2o_zxt&c7@$cv(gvh^b*&q2gni-rnsnrglqyq-5*x_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['django-crm-imklesley.herokuapp','127.0.0.1']
+ALLOWED_HOSTS = []
 
 # Application definition
 

@@ -9,10 +9,28 @@ from django.contrib.auth import authenticate, login, logout
 # Verifica se o usuário logou, caso não tenha logado redireciona para a página de login
 from django.contrib.auth.decorators import login_required
 
+
+from .models import Customer,Order
+
 ##
 from .filters import OrderFilter
 from .forms import *
 from .decorators import *
+
+
+
+@login_required(login_url='login_page')
+@admin_only
+def home(request):
+    context = {}
+    context['customers'] = Customer.objects.all();
+    context['orders'] = Order.objects.all();
+    context['total_orders'] = context['orders'].count
+    context['waiting_payment'] = context['orders'].filter(status='Waiting for Payment').count
+    context['preparation'] = context['orders'].filter(status='Preparation').count
+    context['delivered'] = context['orders'].filter(status='Delivered').count
+
+    return render(request,'accounts/dashboard.html',context)
 
 
 @unauthenticated_user
@@ -47,7 +65,12 @@ def login_page(request):
         user = authenticate(request=request, username=username, password=password)
         if user:
             login(request, user)
-            return redirect('home')
+            # Verifica-se para qual dashboard deve direcionar o usuário
+            if user.groups.filter(name="admin").exists():
+                return redirect('home')
+            else:
+                return redirect('user_page')
+
         else:
             messages.error(request=request, message='Your username or password is invalid!')
 
@@ -74,10 +97,10 @@ def user_page(request):
     context['waiting_payment'] = waiting_payment
     context['preparation'] = preparation
     context['delivered'] = delivered
-    # Só para testesssss
-    # Usar %0A  ou %0D para pular linha
-    context[
-        'whatsapp'] = 'Olá Deusa, Bom dia! Segue Minha Lista de Produtos:%0A*1- Short Jeans tam 34%0A2- Saia Florida Tam 39*'
+    # # Só para testesssss
+    # # Usar %0A  ou %0D para pular linha
+    # context[
+    #     'whatsapp'] = 'Olá Deusa, Bom dia! Segue Minha Lista de Produtos:%0A*1- Short Jeans tam 34%0A2- Saia Florida Tam 39*'
     return render(request, 'accounts/comum_user.html', context)
 
 
